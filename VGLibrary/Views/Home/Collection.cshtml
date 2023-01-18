@@ -1,0 +1,13 @@
+﻿@model IEnumerable<Game>
+
+@if(Model == null)
+{
+    <h2>No Games in collection</h2>
+}
+else
+{
+    foreach (Game game in Model)
+    {
+       <partial name = "_GamePartialView.cshtml" for="@game" />
+    }
+}
