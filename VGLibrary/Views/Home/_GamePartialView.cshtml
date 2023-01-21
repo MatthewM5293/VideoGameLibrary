@@ -8,58 +8,63 @@ else
 {
     <div class="text-center">
         <table class="table table-bordered table-hover text-center">
+            
             <tr>
-                <td>
+                <th>
                     <img src="~/images/@Model.Image" width="400" height="500" />
+                </th>
+            </tr>
+    
+            <tr class="col-sm-12 row">
+                <td class="text-primary">
+                    <h1>
+                        <b><i>
+                            @Model.Title
+                        </i></b>
+                    </h1>
                 </td>
             </tr>
     
             <tr class="col-sm-12 row">
-                <td>@Model.Title</td>
+                <td class="text-secondary">Platform: @Model.Platform</td>
             </tr>
     
             <tr class="col-sm-12 row">
-                <td>Platform: @Model.Platform</td>
+                <td class="text-secondary">Genre(s): @Model.Genre</td>
             </tr>
     
             <tr class="col-sm-12 row">
-                <td>Genre(s): @Model.Genre</td>
+                <td class="text-secondary">ESRB Rating: @Model.Rating</td>
             </tr>
     
             <tr class="col-sm-12 row">
-                <td>ESRB Rating: @Model.Rating</td>
-            </tr>
-    
-            <tr class="col-sm-12 row">
-                <td>Year: @Model.Year</td>
+                <td class="text-secondary">Year: @Model.Year</td>
             </tr>
     
             @if (@Model.LoanedTo == null)
             {
                 <tr class="col-sm-12 row">
-                    <form asp-controller="Home" asp-action="LoanGame" method="post">
-                        <td>
-                            
-                            <input class="form-control" asp-for="LoanedTo" />                        
-                            <p><br /></p>
-                            <button class="btn btn-primary" type="submit">Loan</button>
-                            <p><br /></p>
-                        </td>
+                    <form class="d-flex" asp-controller="Home" asp-action="LoanGame" method="post">
+                        <td>                        
+                            <input name= "LoanedTo" placeholder="Name"/>
+                        <button class="btn btn-primary" type="submit">Submit</button>
+                    </td>
                     </form>
                 </tr>
             }
             else
             {
                 <tr class="col-sm-12 row">
-                    <td>Loaned to: @Model.LoanedTo</td>
+                    <td>Loaned to: @Model.LoanedTo on @Model.LoanDate</td>
+                    <form class="d-flex" asp-controller="Home" asp-action="ReturnGame" method="post">
+                        <td>
+                            <button class="btn btn-primary" type="submit">Return Game</button>
+                        </td>
+                    </form>
                     @*Input Form using post method
                         LoanController sending in name of loaner, game name, date and reload collection page
                     *@
-                </tr>
-
-                <tr class="col-sm-12 row">
-                    <td>Loan Date: @Model.LoanDate</td>
-                </tr>    
+                </tr>  
             }
         </table>
     </div>
