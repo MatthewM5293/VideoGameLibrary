@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Diagnostics;
+using System.Reflection;
 using VGLibrary.Models;
 
 namespace VGLibrary.Controllers
@@ -45,13 +46,6 @@ namespace VGLibrary.Controllers
         {
             return View();
         }
-        
-        //public IActionResult ReturnGame(Game g)
-        //{
-        //    g.LoanDate = null;
-        //    g.LoanedTo = null;
-        //    return RedirectToAction("Collection", "Home");
-        //}
 
         [HttpPost]
         public IActionResult LoanGame(int ID, string loanedTo)
@@ -75,34 +69,8 @@ namespace VGLibrary.Controllers
             }
             //hardcoded
             //Gamelist[i] = new Game(loangame.Id, loangame.Title, loangame.Platform, loangame.Genre, loangame.Rating, loangame.Year, loangame.Image, g.LoanedTo, g.LoanDate);
-            return RedirectToAction("Collection", "Home");
+            return RedirectToAction("Collection", "Home", fragment: ID.ToString());
         }
-
-
-        //needs to be fixed, pass in id and fine it by id
-        //[HttpPost]
-        //public IActionResult LoanGame(string loanedTo, int ID)
-        //{
-        //    int i = Gamelist.FindIndex(x => x.Id == ID);
-        //    if (loanedTo != null)
-        //    {
-        //        DateTime dateTime = DateTime.Now;
-        //        DateTime.TryParse(dateTime.ToString(), out dateTime);
-
-                
-        //        Gamelist[i].LoanedTo = loanedTo;
-        //        Gamelist[i].LoanDate = dateTime;
-
-        //        return RedirectToAction("Collection", "Home");
-        //    }
-        //    else 
-        //    {
-        //        Gamelist[i].LoanedTo = null;
-        //        Gamelist[i].LoanDate = null;
-
-        //        return RedirectToAction("Collection", "Home");
-        //    }
-        //}
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

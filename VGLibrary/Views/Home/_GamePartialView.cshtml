@@ -7,7 +7,7 @@
 }
 else
 {
-    <div class="text-center">
+    <div class="text-center" id="@Model.Id.ToString()">
         <table class="table table-bordered table-hover text-center">
             
             <tr>
@@ -41,34 +41,27 @@ else
             <tr class="col-sm-12 row">
                 <td class="text-secondary">Year: @Model.Year</td>
             </tr>
-    
-            @if (@Model.LoanedTo == null)
-            {
+
+            <form class="d-flex" asp-controller="Home" asp-action="LoanGame" method="post">
+                <input type="hidden" name="ID" value="@Model.Id" />
                 <tr class="col-sm-12 row">
-                    <form class="d-flex" asp-controller="Home" asp-action="LoanGame" method="post">
-                        <td>
-                            <input type="hidden" name="ID" value="@Model.Id" />
-                            <input asp-for="LoanedTo" name= "LoanedTo" placeholder="Name"/>
-                            <button class="btn btn-primary" type="submit">Loan Game</button>
+                @if (@Model.LoanedTo == null)
+                {
+                    <td>
+                        <input asp-for="LoanedTo" name= "LoanedTo" placeholder="Name"/>
+                        <button class="btn btn-primary" type="submit">Loan Game</button>
                     </td>
-                    </form>
-                </tr>
-            }
-            else
-            {
-                <tr class="col-sm-12 row">
-                    <td> Loaned to: @Model.LoanedTo on @Model.LoanDate.Value.ToLongDateString() </td>
-                    <form class="d-flex" asp-controller="Home" asp-action="LoanGame" method="post">
-                        <td>
-                            <input type="hidden" name="ID" value="@Model.Id" />
-                            <button class="btn btn-primary" type="submit">Return Game</button>
-                        </td>
-                    </form>
-                    @*Input Form using post method
-                        LoanController sending in name of loaner, game name, date and reload collection page
-                    *@
+                }
+                else
+                {
+                    
+                <td> Loaned to: @Model.LoanedTo on @Model.LoanDate.Value.ToLongDateString() </td>                    
+                    <td>                            
+                        <button class="btn btn-primary" type="submit">Return Game</button>
+                    </td>
+                }
                 </tr>  
-            }
+            </form>
         </table>
     </div>
 }
