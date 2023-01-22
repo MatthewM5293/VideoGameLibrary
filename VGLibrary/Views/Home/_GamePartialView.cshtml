@@ -1,4 +1,5 @@
 ﻿@model Game
+<h3>@TempData["LoanedTo"]</h3>
 
 @if(Model == null)
 {
@@ -45,9 +46,10 @@ else
             {
                 <tr class="col-sm-12 row">
                     <form class="d-flex" asp-controller="Home" asp-action="LoanGame" method="post">
-                        <td>                        
-                            <input name= "LoanedTo" placeholder="Name"/>
-                        <button class="btn btn-primary" type="submit">Submit</button>
+                        <td>
+                            <input type="hidden" name="ID" value="@Model.Id" />
+                            <input asp-for="LoanedTo" name= "LoanedTo" placeholder="Name"/>
+                            <button class="btn btn-primary" type="submit">Loan Game</button>
                     </td>
                     </form>
                 </tr>
@@ -55,9 +57,10 @@ else
             else
             {
                 <tr class="col-sm-12 row">
-                    <td>Loaned to: @Model.LoanedTo on @Model.LoanDate</td>
-                    <form class="d-flex" asp-controller="Home" asp-action="ReturnGame" method="post">
+                    <td> Loaned to: @Model.LoanedTo on @Model.LoanDate.Value.ToLongDateString() </td>
+                    <form class="d-flex" asp-controller="Home" asp-action="LoanGame" method="post">
                         <td>
+                            <input type="hidden" name="ID" value="@Model.Id" />
                             <button class="btn btn-primary" type="submit">Return Game</button>
                         </td>
                     </form>

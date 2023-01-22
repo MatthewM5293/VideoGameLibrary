@@ -12,14 +12,15 @@
         public string? Rating { get; set; }
         public int Year { get; set; } = 1958;
         public string Image { get; set; }
+        
+
+
         public string? LoanedTo { get; set; }
-        public bool IsLoaned { get; set; } = false;
-
-
         public DateTime? LoanDate { get; set; }
 
         public Game() { }
-        public Game(int? id, string title, string? platform, string genre, string? ESRBrating, int year, string image, string? loanedTo, DateTime? loanDate, bool isLoaned)
+
+        public Game(int? id, string title, string? platform, string genre, string? ESRBrating, int year, string image, string? loanedTo, DateTime? loanDate)
         {
             Id = id;
             Title = title;
@@ -30,7 +31,6 @@
             Image = image;
             LoanedTo = loanedTo;
             LoanDate = loanDate;
-            IsLoaned = isLoaned;
         }
     }
 }
