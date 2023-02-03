@@ -1,17 +1,27 @@
-﻿namespace VGLibrary.Models
+﻿using System.ComponentModel.DataAnnotations;
+using VGLibrary.Validators;
+
+namespace VGLibrary.Models
 {
+    [Game]
     public class Game
     {
         private static int nextID = 0;
         public int? Id { get; set; } = nextID++;
 
-        public string Title { get; set; } = "{N/A}";
-        public string? Platform { get; set; } = "{N/A}";
-        public string Genre { get; set; } = "{N/A}";
+        [Required]
+        public string Title { get; set; }
+        [Required]
+        public string? Platform { get; set; }
+        [Required]
+        public string Genre { get; set; }
 
-        public string? Rating { get; set; } = "{N/A}";
-        public int Year { get; set; } = 1958;
-        public string Image { get; set; } = "missing.png";
+        [Required]
+        public string? Rating { get; set; }
+        [Required]
+        public int Year { get; set; }
+        [Required]
+        public string Image { get; set; } = "images/missing.png";
 
 
 

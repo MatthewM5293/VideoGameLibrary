@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using System;
+using VGLibrary.Data;
 using System.Diagnostics;
-using System.Reflection;
 using VGLibrary.Models;
+using VGLibrary.Interfaces;
 
 namespace VGLibrary.Controllers
 {
@@ -10,15 +10,7 @@ namespace VGLibrary.Controllers
     {
         private readonly ILogger<HomeController> _logger;
 
-        //hardcoded game list
-        private static List<Game> Gamelist = new List<Game>
-        {
-            new Game(1, "Gears Of War 3", "Xbox 360", "3rd Person", "Mature", 2011, "GearsOfWar3.jpg", null, null),
-            new Game(2, "Halo Infinite", "Xbox", "1st Person Shooter", "Teen", 2021, "Halo_Infinite.png", null, null),
-            new Game(3, "Doki Doki Literature Club", "PC", "Visual Novel", "Mature", 2017, "DokiDoki.jpg", null, null),
-            new Game(4, "Minecraft: Java Edition", "PC", "Sandbox", "PC", 2009, "Minecraft.jpg", null, null),
-            new Game(5, "Fortnite", "PC", "3rd Person", "Teen", 2017, "Fortnite.jpg", null, null)
-        };
+        IDataAccessLayer dal = new GameListDAL();
 
         public HomeController(ILogger<HomeController> logger)
         {
@@ -34,12 +26,12 @@ namespace VGLibrary.Controllers
         [HttpPost]
         public IActionResult Collection(Game g)
         {
-            return View(Gamelist);
+            return View(dal.GetGames());
         }
         [HttpGet]
         public IActionResult Collection()
         {
-            return View(Gamelist);
+            return View(dal.GetGames());
         }
 
         public IActionResult Privacy()
@@ -50,25 +42,20 @@ namespace VGLibrary.Controllers
         [HttpPost]
         public IActionResult LoanGame(int ID, string loanedTo)
         {
-            //modify game being loaned (hardcoded)
-            int i = Gamelist.FindIndex(x => x.Id == ID);
+            Game foundgame = dal.GetGame(ID);
             if (loanedTo != null)
             {
                 DateTime dateTime = DateTime.Now;
                 DateTime.TryParse(dateTime.ToString(), out dateTime);
 
-                Gamelist[i].LoanedTo = loanedTo;
-                Gamelist[i].LoanDate = dateTime;
-                //return RedirectToAction("Collection", "Home");
+                foundgame.LoanedTo = loanedTo;
+                foundgame.LoanDate = dateTime;
             }
             else
             {
-
-                Gamelist[i].LoanedTo = null;
-                Gamelist[i].LoanDate = null;
+                foundgame.LoanedTo = null;
+                foundgame.LoanDate = null;
             }
-            //hardcoded
-            //Gamelist[i] = new Game(loangame.Id, loangame.Title, loangame.Platform, loangame.Genre, loangame.Rating, loangame.Year, loangame.Image, g.LoanedTo, g.LoanDate);
             return RedirectToAction("Collection", "Home", fragment: ID.ToString());
         }
 
@@ -77,5 +64,84 @@ namespace VGLibrary.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+
+
+        //edit
+        [HttpGet]
+        public IActionResult Edit(int? id)
+        {
+            if (id == null)
+                return NotFound();
+
+            Game foundGame = dal.GetGame(id);
+
+            if (foundGame == null) return NotFound();
+
+            return View(foundGame);
+        }
+
+        //edit part 2
+        [HttpPost]
+        public IActionResult Edit(Game g)
+        {
+            if (ModelState.IsValid)
+            {
+                dal.EditGame(g);
+                TempData["success"] = $"Game {g.Title} edited";
+                return RedirectToAction("Collection", "Home");
+            }
+            return View();
+        }
+
+        //add
+        [HttpGet] //loading create page
+        public IActionResult Create()
+        {
+            return View();
+        }
+
+        [HttpPost] //saving create page
+        public IActionResult Create(Game g)
+        {
+            if (ModelState.IsValid)
+            {
+                dal.AddGame(g);
+                TempData["Success"] = g.Title + " was added!"; //last through redirects
+                return RedirectToAction("Collection", "Home");
+            }
+            return View();
+        }
+
+        //delete
+        public IActionResult Delete(int? id)
+        {
+            if (dal.GetGame(id) == null)
+            {
+                //validator
+                ModelState.AddModelError("Title", "Cannot find game to delete");
+            }
+            if (ModelState.IsValid)
+            {
+                //temp delete
+                dal.RemoveGame(id);
+                TempData["success"] = "Game deleted";
+            }
+            else
+            {
+                return View();
+            }
+            return RedirectToAction("Collection", "Home");
+        }
+
+        //search
+        public IActionResult Search(string key)
+        {
+            if (String.IsNullOrEmpty(key))
+            {
+                return View("Collection", dal.GetGames());
+            }
+            //returns searched
+            return View("Collection", dal.GetGames().Where(c => c.Title.ToLower().Contains(key.ToLower())));
+    }
     }
 }
