@@ -1,38 +1,27 @@
 ﻿@model IEnumerable<Game>
 <h3>@TempData["LoanedTo"]</h3>
-
-<style type="text/css">
-    body {
-        background-image: src(~/wwwroot/images/Background.png);
-        background-repeat: no-repeat;
-        background-blend-mode:difference;
-        background-size:contain;
-        margin: 0;
-    }
-</style>
-
-<body>
-    
-    @if(Model == null)
-    {
-        <h2>No Games in collection</h2>
-    }
-    else
-    {
-    
-        @*//search*@
+  
+@if(Model == null)
+{
+    <h2>No Games in collection</h2>
+}
+else
+{
+    //make this a drop down/panel
+    //search stuff
+    @*<div>
         <form class="d-flex" method="post" asp-controller="Home" asp-action="Search">
             <input name="key" class="form-control me-sm-2" type="search" placeholder="Search" />
             <button class="btn btn-secondary my-sm-2 my-sm-0" type="submit">Search</button>
         </form>
+    </div>*@
+
+    <h1 class="text-center ">There are currently @Model.Count() Games in the Collection!</h1>
     
-        <h1 class="text-center ">There are currently @Model.Count() Games in the Collection!</h1>
-        
-        <div class="d-flex flex-wrap" >
-            @foreach (Game game in Model)
-            {
-                <partial name = "_GamePartialView.cshtml" for="@game" />
-            }
-        </div>
-    }
-</body>
+    <div class="d-flex flex-wrap" >
+        @foreach (Game game in Model)
+        {
+            <partial name = "_GamePartialView.cshtml" for="@game" />
+        }
+    </div>
+}

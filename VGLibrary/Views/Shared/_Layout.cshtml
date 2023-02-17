@@ -22,8 +22,34 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Collection">Collection</a>
                         </li> <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Create">Add Game</a>
-                        </li>                       
+                        </li>
+
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Filters</a>
+                            <div class="dropdown-menu align-content-center text-center">
+                                <form asp-controller="Home" asp-action="Filter" method="post">
+                                    <div>
+                                        <input class="dropdown-item" name="genre" placeholder="Genre" />
+                                    </div>
+                                    <div>
+                                        <input class="dropdown-item" name="esrbRating" placeholder="ESRB Rating" />
+                                    </div>
+                                    <div>
+                                        <input class="dropdown-item" name="platform" placeholder="Platform" />
+                                    </div>
+                                    <br />
+                                    <div>
+                                        <button type="submit" class="btn btn-success">Filter</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </li>
+
                     </ul>
+                    <form class="d-flex" method="post" asp-controller="Home" asp-action="Search">
+                        <input name="key" class="form-control me-sm-2" type="search" placeholder="Search Game" />
+                        <button class="btn btn-secondary my-sm-2 my-sm-0" type="submit">Search</button>
+                    </form>
                 </div>
             </div>
         </nav>

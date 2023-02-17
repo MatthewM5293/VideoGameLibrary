@@ -1,3 +1,7 @@
+using Microsoft.EntityFrameworkCore;
+using VGLibrary.Data;
+using VGLibrary.Interfaces;
+
 namespace VGLibrary
 {
     public class Program
@@ -8,6 +12,8 @@ namespace VGLibrary
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
+            builder.Services.AddDbContext<VideoGameDBContext>(options =>options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+            builder.Services.AddTransient<IDataAccessLayer, VideoGameDBDAL>();
 
             var app = builder.Build();
 

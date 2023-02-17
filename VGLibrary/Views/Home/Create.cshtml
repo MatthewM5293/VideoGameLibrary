@@ -9,33 +9,33 @@
         </div>
         <div class="mb-3">
             <label asp-for="Image"></label>
-            <input asp-for="@Model.Image" class="form-control" placeholder="Image Url"/>
+            <input asp-for="@Model.Image" class="form-control-plaintext" placeholder="Image Url" />
             <span asp-validation-for="Image" class="text-danger"></span> @*only error for title*@
         </div>
         <div class="mb-3">
             <label asp-for="Title"></label>
-            <input asp-for="@Model.Title" class="form-control" placeholder="Title" />
+            <input asp-for="@Model.Title" class="form-control-plaintext" placeholder="Title" />
             <span asp-validation-for="Image" class="text-danger"></span> 
         </div>
         <div class="mb-3">
             <label asp-for="Platform"></label>
-            <input asp-for="@Model.Platform" class="form-control" placeholder="Platform" />
+            <input asp-for="@Model.Platform" class="form-control-plaintext" placeholder="Platform" />
             <span asp-validation-for="Platform" class="text-danger"></span>
         </div>
         <div class="mb-3">
             <label asp-for="Genre"></label>
-            <input asp-for="@Model.Genre" class="form-control" placeholder="Genre(s)" />
+            <input asp-for="@Model.Genre" class="form-control-plaintext" placeholder="Genre(s)" />
             <span asp-validation-for="Genre" class="text-danger"></span>
         </div>
 
         <div class="mb-3">
             <label asp-for="Rating"></label>
-            <input asp-for="@Model.Rating" class="form-control" placeholder="ESRB Rating" />
+            <input asp-for="@Model.Rating" class="form-control-plaintext" placeholder="ESRB Rating" />
             <span asp-validation-for="Rating" class="text-danger"></span> @*checks if valid, error-messages was made in site.css*@
         </div>
         <div class="mb-3">
             <label asp-for="Year"></label>
-            <input asp-for="@Model.Year" class="form-control" placeholder="Release Year" />
+            <input asp-for="@Model.Year" class="form-control-plaintext" placeholder="Release Year" />
             <span asp-validation-for="Year" class="text-danger"></span>
         </div>
         <button type="submit" class="btn btn-primary">Add Game</button>

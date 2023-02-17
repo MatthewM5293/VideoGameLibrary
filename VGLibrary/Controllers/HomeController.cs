@@ -8,13 +8,10 @@ namespace VGLibrary.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
-
-        IDataAccessLayer dal = new GameListDAL();
-
-        public HomeController(ILogger<HomeController> logger)
+        IDataAccessLayer dal;
+        public HomeController(IDataAccessLayer indal)
         {
-            _logger = logger;
+            dal = indal;
         }
 
         public IActionResult Index()
@@ -50,11 +47,13 @@ namespace VGLibrary.Controllers
 
                 foundgame.LoanedTo = loanedTo;
                 foundgame.LoanDate = dateTime;
+                dal.EditGame(foundgame);
             }
             else
             {
                 foundgame.LoanedTo = null;
                 foundgame.LoanDate = null;
+                dal.EditGame(foundgame);
             }
             return RedirectToAction("Collection", "Home", fragment: ID.ToString());
         }
@@ -142,6 +141,11 @@ namespace VGLibrary.Controllers
             }
             //returns searched
             return View("Collection", dal.GetGames().Where(c => c.Title.ToLower().Contains(key.ToLower())));
-    }
+        }
+
+        public IActionResult Filter(string genre, string platform, string esrbRating) 
+        {
+            return View("Collection", dal.FilterCollection(genre, platform, esrbRating));
+        }
     }
 }

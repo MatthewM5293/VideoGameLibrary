@@ -15,6 +15,8 @@ namespace VGLibrary.Interfaces
 
         Game GetGame(int? id);
 
-        int GetGame(Game game);
+        //int GetGame(Game game);
+
+        IEnumerable<Game> FilterCollection(string genre, string platform, string esrbRating);
     }
 }

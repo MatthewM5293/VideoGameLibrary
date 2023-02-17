@@ -6,18 +6,18 @@ namespace VGLibrary.Models
     [Game]
     public class Game
     {
-        private static int nextID = 0;
-        public int? Id { get; set; } = nextID++;
+        [Key]
+        public int Id { get; set; } 
 
         [Required]
         public string Title { get; set; }
         [Required]
-        public string? Platform { get; set; }
+        public string Platform { get; set; }
         [Required]
         public string Genre { get; set; }
 
         [Required]
-        public string? Rating { get; set; }
+        public string Rating { get; set; }
         [Required]
         public int Year { get; set; }
         [Required]
@@ -30,7 +30,7 @@ namespace VGLibrary.Models
 
         public Game() { }
 
-        public Game(int? id, string title, string? platform, string genre, string? ESRBrating, int year, string image, string? loanedTo, DateTime? loanDate)
+        public Game(int id, string title, string platform, string genre, string ESRBrating, int year, string image, string? loanedTo, DateTime? loanDate)
         {
             Id = id;
             Title = title;
